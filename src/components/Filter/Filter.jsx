@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { nanoid } from 'nanoid';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export const Filter = ({ value, filter }) => {
   return (
@@ -14,4 +14,15 @@ export const Filter = ({ value, filter }) => {
       />
     </>
   );
+};
+
+Filter.prototype = {
+  value: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.number.isRequired,
+    })
+  ),
+  filter: PropTypes.func.isRequired,
 };

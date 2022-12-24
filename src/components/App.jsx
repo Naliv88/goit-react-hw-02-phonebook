@@ -3,6 +3,9 @@ import { nanoid } from 'nanoid';
 
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
+import { ContactList } from './ContactList/ContactList';
+
+import style from './App.module.css'
 
 class App extends Component {
   state = {
@@ -15,7 +18,7 @@ class App extends Component {
     filter: '',
   };
 
-  addContacts = ({ name, number }) => {
+  onContatactAdd = ({ name, number }) => {
     const newContact = {
       id: nanoid(),
       name,
@@ -44,23 +47,23 @@ class App extends Component {
     );
   };
 
+  onContatactDeleted = id => {
+    this.setState({
+      contacts: this.state.contacts.filter(contact => contact.id !== id),
+    });
+  };
+
   render() {
     return (
-      <div>
+      <div className={style.section}>
         <h1>Phonebook</h1>
-        <ContactForm addContacts={this.addContacts} />
+        <ContactForm onContatactAdd={this.onContatactAdd} />
         <h2>Contacts</h2>
         <Filter value={this.state.filter} filter={this.filterChange} />
-
-        <ul>
-          {this.filterList().map(e => {
-            return (
-              <li key={e.id}>
-                {e.name}: {e.number}
-              </li>
-            );
-          })}
-        </ul>
+        <ContactList
+          contacts={this.filterList()}
+          onContatactDeleted={this.onContatactDeleted}
+        />
       </div>
     );
   }
